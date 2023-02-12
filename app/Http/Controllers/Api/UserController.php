@@ -15,12 +15,24 @@ class UserController extends Controller
         $validateData = $request->validate([
             'name' => 'required',
             'email' => ['required','email'],
-            'password' => ['min:8','confirmed'],        
+            'password' => ['min:8','confirmed'],   
+            'picture' =>['file','mimes:jpeg,png,gif','max:3072'],    
 
             ]);
-        $validateData['password'] = bcrypt($request->password);     
-        $user = User::create($validateData);        
-        $token = $user->createToken('auth_token')->accessToken;        
+            //store the picture
+            $path =null;
+            
+            if($request->hasFile('picture')){
+                $path = $request->file('picture')->storePublicly('pictures');
+            }
+
+
+        $validateData['password'] = bcrypt($request->password);    
+
+        $user = User::create($validateData);      
+
+        $token = $user->createToken('auth_token')->accessToken; 
+
         return response()->json(
             [
                 'token' => $token,
