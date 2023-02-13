@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CommentController;
+
 
 
 /*
@@ -28,9 +30,9 @@ Route::post('/login',[UserController::class,'login']);
 Route::middleware(['auth:api'])->group(function(){
     Route::post('/logout',[UserController::class,'logout']);
 
-    Route::post('/post',[PostController::class,'createPost']);
-
     Route::get('/user/{id}',[UserController::class,'getUser']);
+    
+    Route::post('/post',[PostController::class,'createPost']);
 
     Route::get('/edit/{id}',[PostController::class,'edit']);
 
@@ -38,5 +40,9 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::put('/delete/{id}',[PostController::class,'deletePost']);
 
-    
+    Route::post('/store-comment', [CommentController::class,'storeComment']);
+
+    Route::put('/deletecomment/{id}',[CommentController::class,'deleteComment']);
+
+
 });
