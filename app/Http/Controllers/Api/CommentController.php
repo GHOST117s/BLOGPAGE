@@ -13,31 +13,28 @@ use App\Models\Post;
 
 class CommentController extends Controller
 {
-    
-    
 
     public function storeComment(Request $request)
     {
-       
         $user = Auth::user();
-
+    
         $validateData = $request->validate([
             'body' => 'required|min:1',
             'post_id' => 'required|integer',
             'picture' => ['file', 'mimes:jpeg,png,gif', 'max:1072'],
         ]);
     
-        $comment = new Comment();
-        $comment->body = $validateData['body'];
-        $comment->user_id = $user->id;
-        $comment->post_id = $validateData['post_id'];
-    
+        $path = null;
         if ($request->hasFile('picture')) {
             $path = $request->file('picture')->storePublicly('commentImages');
-            $comment->picture = $path;
         }
     
-        $comment->save();
+        $comment = Comment::create([
+            'body' => $validateData['body'],
+            'user_id' => $user->id,
+            'post_id' => $validateData['post_id'],
+            'picture' => $path
+        ]);
     
         return response()->json([
             'comment' => $comment,
@@ -45,32 +42,46 @@ class CommentController extends Controller
             'status' => 200
         ]);
     }
+    
 
 
+    
 
-    public function updateComment(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'body' => 'required|min:1',
-        'picture' => ['file', 'mimes:jpeg,png,gif', 'max:1072'],
-    ]);
+   
 
-    $comment = Comment::findOrFail($id);
-    $comment->body = $validatedData['body'];
+    public function updateComment(Request $request, $id){
 
-    if ($request->hasFile('picture')) {
-        $path = $request->file('picture')->storePublicly('commentImages');
-        $comment->picture = $path;
-    }
+$user = Auth::user();
 
-    $comment->save();
+$validatedData = $request->validate([
+    'body' => 'required|min:1',
+    'picture' => ['file', 'mimes:jpeg,png,gif', 'max:1072'],
+]);
 
-    return response()->json([
-        'comment' => $comment,
-        'message' => 'Comment updated successfully',
-        'status' => 200
-    ]);
+$comment = Comment::findOrFail($id);
+
+$path = null;
+if ($request->hasFile('picture')) {
+    $path = $request->file('picture')->storePublicly('commentImages');
+    Storage::delete($comment->picture);
+
+   
+}else{
+    $path = $comment->picture;
 }
+$comment->update([
+    'body' => $validatedData['body'],
+    'picture' => $path,
+
+]);
+return response()->json([
+    'comment' => $comment,
+       'message' => 'Comment updated successfully',
+]);
+
+}
+
+   
 
 public function deleteComment($id)
 {

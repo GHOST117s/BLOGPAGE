@@ -12,6 +12,9 @@ class Comment extends Model
     protected $fillable = [
         'body',
         'picture',
+        'user_id',
+        'post_id',
+
     ] ;  
 
 
