@@ -13,12 +13,14 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+
     public function createPost(Request $request){
         $user = Auth::user();
 
         $validateData = $request->validate([
             'title' =>'required|min:3',
             'content' =>'required|min:3',
+            'categories_id'=>['required', 'integer'],
              'picture' =>['file','mimes:jpeg,png,gif','max:3072'],
         ]);
 
@@ -67,9 +69,16 @@ public function updatePost(Request $request, $id)
     $validatedData = $request->validate([
         'title' => 'required|min:3',
         'content' => 'required|min:3',
+        'categories_id'=>['required', 'integer'],
         'picture' => ['file', 'mimes:jpeg,png,gif', 'max:3072'],
     ]);
 
+    if ($user->id !== $post->user_id) {
+        return response()->json([
+            'message' => 'You are not authorized to update this post.',
+            'status' => 403,
+        ]);
+    }
     // Check if a new picture was provided
     $path = null;
     if ($request->hasFile('picture')) {

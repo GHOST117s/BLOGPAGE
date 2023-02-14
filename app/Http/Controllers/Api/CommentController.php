@@ -14,6 +14,8 @@ use App\Models\Post;
 class CommentController extends Controller
 {
 
+    
+
     public function storeComment(Request $request)
     {
         $user = Auth::user();
@@ -96,7 +98,7 @@ public function deleteComment($id)
 
     $post = $comment->post;
 
-    if (Auth::user()->id !== $post->user_id) {
+    if (Auth::user()->id !== $post->user_id && Auth::user()->id !== $comment->user_id) {
         return response()->json([
             'message' => 'You are not authorized to delete this comment',
             'status' => 403
