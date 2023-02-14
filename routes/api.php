@@ -52,5 +52,9 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::post('/categories',[CategoriesController::class,'createCategory']);
 
+    Route::get('/getPost/{id}',[PostController::class,'getPosts']);
+
+
+
 
 });

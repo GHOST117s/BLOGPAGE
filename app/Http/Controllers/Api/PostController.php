@@ -130,6 +130,22 @@ public function deletePost(Request $request, $id)
     ]);
 }
 
+public function getPosts(Request $request, $id)
+{
+    $post = Post::with('comments.user')->find($id);
+
+    if (!$post) {
+        return response()->json([
+            'message' => 'Post not found',
+            'status' => 404,
+        ], 404);
+    }
+
+    return response()->json([
+        'post' => $post,
+        'status' => 200,
+    ]);
+}
 
 
 

@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
+
+
+
 class UserController extends Controller
 {
 
@@ -67,7 +72,7 @@ class UserController extends Controller
         return response()->json([
             'token' => $token,
             'user' => $user,        
-            'message' => "Login successful post sucessfully ",
+            'message' => "Login successful  ",
             'status' => 1
         ]);
     }
@@ -86,6 +91,9 @@ class UserController extends Controller
 
     public function getUser($id){
         $user = User::find($id);
+        $post = $user->post()->with('comments')->get();
+       
+
         if(is_null($user)){
             return response()->json(
                 [
@@ -95,11 +103,13 @@ class UserController extends Controller
                     'status' => 0
                 ]
                 );
-        }else{
+        }else{                    
+
             return response()->json(
                 [
                   
-                    'user' => $user,
+                    'user' => $user,  
+                    'posts' =>$post,                                                
                     'message' =>"User found",
                     'status' => 1
                 ]
