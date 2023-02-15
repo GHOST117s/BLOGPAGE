@@ -6,11 +6,11 @@ const Navbar = () => {
     
   return (
  <>
-  <header aria-label="Site Header" class="bg-white">
+  <header aria-label="Site Header" className="bg-white">
   <div
-    class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8"
+    className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8"
   >
-    <Link class="block text-teal-600" to="/">
+    <Link className="block text-teal-600" to="/">
      
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 width="64" height="64"
@@ -20,11 +20,11 @@ viewBox="0 0 64 64">
 
     </Link>
 
-    <div class="flex flex-1 items-center justify-end md:justify-between">
-      <nav aria-label="Site Nav" class="hidden md:block">
-        <ul class="flex items-center gap-6 text-sm">
+    <div className="flex flex-1 items-center justify-end md:justify-between">
+      <nav aria-label="Site Nav" className="hidden md:block">
+        <ul className="flex items-center gap-6 text-sm">
           <li>
-            <Link class="text-gray-500 transition hover:text-gray-500/75 font-bold " to="/">
+            <Link className="text-gray-500 transition hover:text-gray-500/75 font-bold " to="/">
               Dashboard
             </Link>
           </li>
@@ -34,17 +34,21 @@ viewBox="0 0 64 64">
         </ul>
       </nav>
 
-      <div class="flex items-center gap-4">
-        <div class="sm:flex sm:gap-4">
+      if (condition) {
+        
+      }
+
+      <div className="flex items-center gap-4">
+        <div className="sm:flex sm:gap-4">
           <Link to="/login"
-            class="block rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            className="block rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             
           >
             Login
           </Link>
 
           <Link to="/register"
-            class="block rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+            className="block rounded-md bg-cyan-400 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
             
           >
             Sign Up
@@ -52,12 +56,12 @@ viewBox="0 0 64 64">
         </div>
 
         <button
-          class="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
+          className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
         >
-          <span class="sr-only">Toggle menu</span>
+          <span className="sr-only">Toggle menu</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
