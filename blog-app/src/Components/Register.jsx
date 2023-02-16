@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import NavbarSecondary from '../Components/NavbarSecondary'
 import { Link,Navigate } from 'react-router-dom'
 import { useState} from 'react'
-import UserPage from './UserPage';
+// import UserPage from './UserPage';
 
 const Register = () => {
     const [isAuth, setAuth] = useState(false);

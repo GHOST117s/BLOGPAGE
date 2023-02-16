@@ -36,7 +36,7 @@ const Login = () => {
 
   const onSubmit = async e =>{
     e.preventDefault()
-    let isValid = validateform()
+     validateform()
 
     try{
       const config = {
