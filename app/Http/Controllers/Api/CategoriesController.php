@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Categories;
 
 
@@ -28,6 +29,18 @@ class CategoriesController extends Controller
             'status'=>200
         ]);
     }
+
+    public function getAllCategoriesWithPosts()
+    {
+        $categories = Categories::with('post')->get();
+
+        return response()->json([
+            'categories' => $categories,
+            'status' => 200
+        ]);
+    }
+
+
 
     //
 }
