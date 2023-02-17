@@ -89,33 +89,26 @@ class UserController extends Controller
         ]);
     }
 
-    public function getUser($id){
-        $user = User::find($id);
+    public function getUser() {
+        $user = auth()->user();
         $post = $user->post()->with('comments')->get();
-       
-
-        if(is_null($user)){
-            return response()->json(
-                [
-                  
-                    'user' => null,
-                    'message' =>"User Not found",
-                    'status' => 0
-                ]
-                );
-        }else{                    
-
-            return response()->json(
-                [
-                  
-                    'user' => $user,  
-                    'posts' =>$post,                                                
-                    'message' =>"User found",
-                    'status' => 1
-                ]
-                );
+    
+        if (is_null($user)) {
+            return response()->json([
+                'user' => null,
+                'message' => "User not found",
+                'status' => 0
+            ]);
+        } else {
+            return response()->json([
+                'user' => $user,
+                'posts' => $post,
+                'message' => "User found",
+                'status' => 1
+            ]);
         }
     }
+    
 
     //
 }

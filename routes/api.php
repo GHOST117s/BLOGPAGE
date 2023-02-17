@@ -33,7 +33,7 @@ Route::get('/getAllcategories',[CategoriesController::class,'getAllCategoriesWit
 Route::middleware(['auth:api'])->group(function(){
     Route::post('/logout',[UserController::class,'logout']);
 
-    Route::get('/user/{id}',[UserController::class,'getUser']);
+    Route::get('/user',[UserController::class,'getUser']);
     
     Route::post('/post',[PostController::class,'createPost']);
 
