@@ -28,7 +28,7 @@ class UserController extends Controller
             $path =null;
             
             if($request->hasFile('picture')){
-                $path = $request->file('picture')->storePublicly('pictures');
+                $path = $request->file('picture')->store('pictures','public');
             }
 
 
@@ -91,7 +91,8 @@ class UserController extends Controller
 
     public function getUser() {
         $user = auth()->user();
-        $post = $user->post()->with('comments')->get();
+        $posts = $user->post()->with('comments.user')->get();
+        $categories = $user->categories()->with('post')->get();
     
         if (is_null($user)) {
             return response()->json([
@@ -102,12 +103,14 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'user' => $user,
-                'posts' => $post,
+                'posts' => $posts,
+                'categories' => $categories,
                 'message' => "User found",
                 'status' => 1
             ]);
         }
     }
+    
     
 
     //

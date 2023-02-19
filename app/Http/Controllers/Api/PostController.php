@@ -118,10 +118,14 @@ public function deletePost(Request $request, $id)
             'status' => 403,
         ]);
     }
-
+    $post->comments()->delete();
     // Delete the post and its picture
-    Storage::delete($post->picture);
+    if ($post->picture !== null) {
+        Storage::delete($post->picture);
+    }
+    
     $post->delete();
+    
 
     // Return a response indicating success
     return response()->json([

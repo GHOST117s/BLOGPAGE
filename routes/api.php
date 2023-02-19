@@ -45,6 +45,10 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::post('/store-comment', [CommentController::class,'storeComment']);
 
+    Route::get('/comment/{id}', [CommentController::class,'findComment']);
+
+
+
     Route::post('/comment-update/{id}', [CommentController::class,'updateComment']);
 
 

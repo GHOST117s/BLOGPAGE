@@ -47,7 +47,23 @@ class CommentController extends Controller
     
 
 
+    public function findComment($id)
+{
+    $comment = Comment::find($id);
     
+    if ($comment) {
+        return response()->json([
+            'comment' => $comment,
+            'status' => 200
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'Comment not found',
+            'status' => 404
+        ]);
+    }
+}
+
 
    
 
