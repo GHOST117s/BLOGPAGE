@@ -30,7 +30,7 @@ class UserController extends Controller
             $path =null;
             
             if($request->hasFile('picture')){
-                $path = $request->file('picture')->store('pictures','public');
+                $path = $request->file('picture')->store('pictures');
             }
 
 

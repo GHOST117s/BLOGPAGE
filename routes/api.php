@@ -30,6 +30,10 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 Route::get('/getAllcategories',[CategoriesController::class,'getAllCategoriesWithPosts']);
 
+Route::get('/getcategories/{id}',[CategoriesController::class,'getCategory']);
+
+Route::get('/getPosts/{id}',[PostController::class,'getPosts']);
+
 Route::middleware(['auth:api'])->group(function(){
     Route::post('/logout',[UserController::class,'logout']);
 
@@ -39,7 +43,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('/edit/{id}',[PostController::class,'edit']);
     Route::post('/update/{id}',[PostController::class,'updatePost']);
     Route::put('/delete/{id}',[PostController::class,'deletePost']);
-    Route::get('/getPosts/{id}',[PostController::class,'getPosts']);
+  
 
 
 
@@ -51,11 +55,9 @@ Route::middleware(['auth:api'])->group(function(){
 
     Route::post('/categories',[CategoriesController::class,'createCategory']);
     Route::put('/deletecategories/{id}',[CategoriesController::class,'deleteCategory']);
-    Route::get('/getcategories/{id}',[CategoriesController::class,'getCategory']);
+   
 
 
-
-    Route::get('/getPost/{id}',[PostController::class,'getPosts']);
 
 
 

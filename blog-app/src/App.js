@@ -21,6 +21,7 @@ function App() {
     <Route path="/userprofile" element={<UserPage/>}/>
     <Route path="/category/:id" element={<CategoriesPage/>}/>
     <Route path="/posts/:id" element={<Posts/>}/>
+    
 
 
 

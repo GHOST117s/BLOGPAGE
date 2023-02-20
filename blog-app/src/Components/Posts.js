@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import Swal from 'sweetalert2';
 
 const Posts = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/getPosts/${id}`)
+    axios
+      .get(`http://127.0.0.1:8000/api/getPosts/${id}`)
       .then((response) => {
         setPost(response.data.post);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [id]);
+
+  if (!post) {
+    return <div>Loading...</div>;
+  }
 
   function handleDeleteClick(Id) {
     // Show a confirmation dialog before deleting the comment
@@ -45,52 +49,46 @@ const Posts = () => {
     });
   }
 
- 
-
-
-
-
-
 
   return (
     <div>
-      <Navbar />
-      <div className="max-w-4xl mx-auto mt-4">
-        <div className="bg-white rounded-lg overflow-hidden shadow-md">
-          <div className="bg-gray-200 px-4 py-2 ">{post.title}</div>
-          <div className="px-4 py-2">
-            <p className="text-gray-700">{post.content}</p>
-            <img src={post.picture} alt={post.title} className="my-4 mx-auto max-h-96 object-contain" />
-            <div className="text-gray-700">
-              <strong>User:</strong> {post.user.name} ({post.user.email})
-            </div>
-            <div className="text-gray-700">
-              <strong>Categories:</strong> {post.categories.name}
-            </div>
-            <div className="text-gray-700">
-              <strong>Comments:</strong>
-              {post.comments.map((comment) => (
-                <div key={comment.id} className="bg-gray-100 p-4 rounded-lg mt-4">
-                  <div className="font-bold">{comment.user.name}</div>
-                  <div className="text-gray-700">{comment.content}</div>
-                  <div className="text-gray-700">
-                    <strong>User:</strong> {comment.user.name} ({comment.user.email})
-                  </div>
-                  <button
-      type="button"
-      className="inline-block px-2 py-1 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-      onClick={() => handleDeleteClick(comment.id)}
-    >
-      Delete
-    </button>
+    <Navbar />
+    <div className="max-w-4xl mx-auto mt-4">
+      <div className="bg-white rounded-lg overflow-hidden shadow-md">
+        <div className="bg-gray-200 px-4 py-2 ">{post.title}</div>
+        <div className="px-4 py-2">
+          <p className="text-gray-700">{post.content}</p>
+          <img src={post.picture} alt={post.title} className="my-4 mx-auto max-h-96 object-contain" />
+          <div className="text-gray-700">
+            <strong>User:</strong> {post.user.name} ({post.user.email})
+          </div>
+          <div className="text-gray-700">
+            <strong>Categories:</strong> {post.categories.name}
+          </div>
+          <div className="text-gray-700">
+            <strong>Comments:</strong>
+            {post.comments.map((comment) => (
+              <div key={comment.id} className="bg-gray-100 p-4 rounded-lg mt-4">
+                <div className="font-bold">{comment.user.name}</div>
+                <div className="text-gray-700">{comment.content}</div>
+                <div className="text-gray-700">
+                  <strong>User:</strong> {comment.user.name} ({comment.user.email})
                 </div>
-              ))}
+                <button
+    type="button"
+    className="inline-block px-2 py-1 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+    onClick={() => handleDeleteClick(comment.id)}
+  >
+    Delete
+  </button>
+              </div>
+            ))}
 
-            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
