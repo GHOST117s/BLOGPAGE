@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Categories;
 
 
 
@@ -136,7 +137,7 @@ public function deletePost(Request $request, $id)
 
 public function getPosts(Request $request, $id)
 {
-    $post = Post::with('comments.user')->find($id);
+    $post = Post::with('comments.user','user','categories')->find($id);
 
     if (!$post) {
         return response()->json([

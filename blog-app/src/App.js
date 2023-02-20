@@ -5,6 +5,9 @@ import Login from '../src/Components/Login'
 import Register from '../src/Components/Register'
 import { Route, Routes } from 'react-router-dom';
 import UserPage from './Components/UserPage';
+import CategoriesPage from './Components/CategoriesPage';
+import Posts from './Components/Posts';
+
 
 
 function App() {
@@ -15,7 +18,11 @@ function App() {
     <Route path="/" element ={<Home />}/>
     <Route path="/login" element ={<Login />}/>
     <Route path="/register" element ={<Register />}/>      
-    <Route path="/UserProfile" element={<UserPage/>}/>
+    <Route path="/userprofile" element={<UserPage/>}/>
+    <Route path="/category/:id" element={<CategoriesPage/>}/>
+    <Route path="/posts/:id" element={<Posts/>}/>
+
+
 
   </Routes>
   </>

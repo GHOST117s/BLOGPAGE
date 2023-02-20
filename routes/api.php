@@ -36,26 +36,24 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('/user',[UserController::class,'getUser']);
     
     Route::post('/post',[PostController::class,'createPost']);
-
     Route::get('/edit/{id}',[PostController::class,'edit']);
-
     Route::post('/update/{id}',[PostController::class,'updatePost']);
-
     Route::put('/delete/{id}',[PostController::class,'deletePost']);
+    Route::get('/getPosts/{id}',[PostController::class,'getPosts']);
+
+
 
     Route::post('/store-comment', [CommentController::class,'storeComment']);
-
     Route::get('/comment/{id}', [CommentController::class,'findComment']);
-
-
-
     Route::post('/comment-update/{id}', [CommentController::class,'updateComment']);
-
-
     Route::put('/deletecomment/{id}',[CommentController::class,'deleteComment']);
 
 
     Route::post('/categories',[CategoriesController::class,'createCategory']);
+    Route::put('/deletecategories/{id}',[CategoriesController::class,'deleteCategory']);
+    Route::get('/getcategories/{id}',[CategoriesController::class,'getCategory']);
+
+
 
     Route::get('/getPost/{id}',[PostController::class,'getPosts']);
 

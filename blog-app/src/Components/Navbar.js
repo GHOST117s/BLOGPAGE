@@ -36,12 +36,6 @@ const Navbar = () => {
     }
   }
 
-  // const logoutEvent = () =>{
-    
-  //   localStorage.removeItem('token');
-  //   window.location.reload();
-  //   return <Navigate to='/' />
-  // }
  
   const token = localStorage.getItem('token');
 
@@ -63,7 +57,7 @@ const Navbar = () => {
       <nav aria-label="Site Nav" className="hidden md:block">
         <ul className="flex items-center gap-6 text-sm">
           <li>
-            <Link className="text-gray-500 transition hover:text-gray-500/75 font-bold " to="/UserProfile">
+            <Link className="text-gray-500 transition hover:text-gray-500/75 font-bold " to="/userprofile">
               Dashboard
             </Link>
           </li>

@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2'
 
-import NavbarSecondary from '../Components/NavbarSecondary'
+import NavbarSecondary from './NavbarSecondary'
 import { Link,Navigate } from 'react-router-dom'
 import { useState} from 'react'
 // import UserPage from './UserPage';
@@ -34,7 +34,7 @@ const Register = () => {
       // save the token in localStorage
       localStorage.setItem('token', token);
 
-      // set isAuth to true and navigate to the UserProfile page
+      // set isAuth to true and navigate to the userprofile page
       setAuth(true);
     } catch (err) {
       alert(err.response.data.message);
@@ -48,7 +48,7 @@ const Register = () => {
         showConfirmButton: false,
         timer: 1500
       });
-    return <Navigate to="/UserProfile" />;
+    return <Navigate to="/userprofile" />;
   }
 
    

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Categories;
+
 
 
 
@@ -91,8 +93,9 @@ class UserController extends Controller
 
     public function getUser() {
         $user = auth()->user();
-        $posts = $user->post()->with('comments.user')->get();
-        $categories = $user->categories()->with('post')->get();
+        $posts = Post::with('comments.user','user')->get();
+
+        $categories = Categories::with('post','user')->get();
     
         if (is_null($user)) {
             return response()->json([

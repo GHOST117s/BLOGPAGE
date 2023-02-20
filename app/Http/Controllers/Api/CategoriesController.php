@@ -40,6 +40,45 @@ class CategoriesController extends Controller
         ]);
     }
 
+    public function deleteCategory(Request $request, $id)
+    {
+        $categories = Categories::findOrFail($id);
+    
+        // Check if authenticated user is the owner of the categories
+        if ($categories->user_id !== auth()->user()->id) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+    
+        $categories->delete();
+    
+        return response()->json([
+            'message' => 'categories deleted successfully',
+        ], 200);
+    }
+
+
+    public function getCategory($id)
+{
+    $categories = Categories::with('post.user','user')->find($id);
+
+    if (! $categories) {
+        return response()->json([
+            'message' => 'Category not found',
+            'status' => 404
+        ], 404);
+    }
+
+    return response()->json([
+        'category' =>  $categories,
+        'status' => 200
+    ]);
+}
+
+
+
+
 
 
     //

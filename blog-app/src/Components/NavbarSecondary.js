@@ -21,7 +21,7 @@ viewBox="0 0 64 64">
       <nav aria-label="Site Nav" className="hidden md:block">
         <ul className="flex items-center gap-6 text-sm">
           <li>
-            <Link className="text-gray-500 transition hover:text-gray-500/75" to="/UserProfile">
+            <Link className="text-gray-500 transition hover:text-gray-500/75" to="/userprofile">
               Dashboard
             </Link>
           </li>

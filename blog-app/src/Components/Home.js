@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
-import Navbar from '../Components/Navbar'
+import Navbar from './Navbar'
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -22,8 +22,10 @@ const Home = () => {
   return (
     <>
       <Navbar />
+      <h2 class="text-4xl font-extrabold dark:text-white ml-9">All Post</h2>
       <div className="flex flex-col md:flex-row md:items-stretch md:h-screen ml-9 mt-9">
         <div className="md:w-78 text-sm font-medium text-gray-900 dark:text-white">
+        
           <button
             aria-current="true"
             type="button"
@@ -37,10 +39,11 @@ const Home = () => {
               key={category.id}
               type="button"
               className={`w-full px-4 py-2 font-medium text-left border-b border-gray-200 cursor-pointer focus:outline-none ${selectedCategory === category.id ? 'bg-gray-200' : 'text-gray-900'} dark:text-white dark:bg-gray-800 dark:border-gray-600  hover:bg-blue-400 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out`}
-              onClick={() => setSelectedCategory(category.id)}
-            >
+              onClick={() => setSelectedCategory(category.id)} >
               {category.name}
+            
             </button>
+            
           ))}
         </div>
         <div className="container mx-auto ml-10 mt-10 ">
