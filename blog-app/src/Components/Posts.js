@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import Swal from 'sweetalert2';
 
 const Posts = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -50,6 +51,17 @@ const Posts = () => {
   }
 
 
+  // function handelEdit(id) {
+  //   const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');    
+  //   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //   axios.get(`http://127.0.0.1:8000/api/edit/${id}`)
+  //     .then(response => {
+  //       console.log(response);
+        
+  //     })
+    
+  // }
+
   return (
     <div>
     <Navbar />
@@ -62,6 +74,12 @@ const Posts = () => {
           <div className="text-gray-700">
             <strong>User:</strong> {post.user.name} ({post.user.email})
           </div>
+          {/* edit button */}
+          <Link to={`/editpost/${post.id}`}>
+          <button type="button" className="m-3 inline-block justify-center px-6 py-2.5 bg-cyan-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out"  >Edit
+          </button> </Link>
+
+
           <div className="text-gray-700">
             <strong>Categories:</strong> {post.categories.name}
           </div>

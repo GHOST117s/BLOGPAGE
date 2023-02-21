@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -30,7 +30,7 @@ class UserController extends Controller
             $path =null;
             
             if($request->hasFile('picture')){
-                $path = $request->file('picture')->store('pictures');
+                $path = $request->file('picture')->storePublicly('pictures' );
             }
 
 

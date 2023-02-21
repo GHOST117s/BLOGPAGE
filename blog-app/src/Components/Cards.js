@@ -6,7 +6,7 @@ import axios from 'axios'
 
 
 
-const Cards = ( {activeLink,user,posts,categories,setCategories}) => {
+const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
 
     function handleview(id) {
    
@@ -31,7 +31,9 @@ const Cards = ( {activeLink,user,posts,categories,setCategories}) => {
               .put(`http://127.0.0.1:8000/api/deletecategories/${id}`)
               .then((response) => {
                 console.log(response.data);
-                setCategories(response.data.categories);
+                // setCategories(response.data.categories);
+                setCategories(categories)
+                // window.location.reload();
               })
               .catch((error) => {
                 if (error.response && error.response.status === 401) {
@@ -49,6 +51,53 @@ const Cards = ( {activeLink,user,posts,categories,setCategories}) => {
           }
         });
       }
+
+      function handleDeletePost(id) {
+        console.log(id);
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'You will not be able to recover this category!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel',
+          confirmButtonColor: '#dc3545',
+          cancelButtonColor: '#6c757d',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .put(`http://127.0.0.1:8000/api/delete/${id}`)
+              .then((response) => {
+                console.log(response.data);
+                setPost(response.data.post);
+               setPost(posts)
+              })
+              .catch((error) => {
+                if (error.response && error.response.status === 401) {
+                  Swal.fire({
+                    title: 'Unauthorized',
+                    text: 'You are not authorized to delete this Post',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                  });
+                } else {
+                  console.log(error);
+                }
+              });
+          }
+        });
+      }
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
@@ -96,6 +145,12 @@ const Cards = ( {activeLink,user,posts,categories,setCategories}) => {
                               View
                             </button>
                             </Link>
+
+                            {user && user.id === post.user_id && (
+                        <button type="button" className="m-3 inline-block justify-center px-6 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out" onClick={() => handleDeletePost(post.id,)}>
+                          Delete
+                        </button>
+                      )}
 
                           </div>
                         </div>

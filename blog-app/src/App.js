@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import UserPage from './Components/UserPage';
 import CategoriesPage from './Components/CategoriesPage';
 import Posts from './Components/Posts';
+import Edit from './Components/Edit';
 
 
 
@@ -21,6 +22,7 @@ function App() {
     <Route path="/userprofile" element={<UserPage/>}/>
     <Route path="/category/:id" element={<CategoriesPage/>}/>
     <Route path="/posts/:id" element={<Posts/>}/>
+    <Route path="/editpost/:id" element={<Edit/>}/>
     
 
 

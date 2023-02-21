@@ -70,7 +70,7 @@ public function updatePost(Request $request, $id)
     $validatedData = $request->validate([
         'title' => 'required|min:3',
         'content' => 'required|min:3',
-        'categories_id'=>['required', 'integer'],
+        // 'categories_id'=>['required', 'integer'],
         'picture' => ['file', 'mimes:jpeg,png,gif', 'max:3072'],
     ]);
 

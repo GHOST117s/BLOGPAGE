@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 
 
 const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  
 
   const navigate = useNavigate();
 
@@ -45,6 +47,7 @@ const Navbar = () => {
  <>
   <header aria-label="Site Header" className="bg-white">
   <div  className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8"  >
+ <Link to="/"> <h2 class="text-4xl font-extrabold dark:text-white ml-9">All Post</h2></Link>
     <Link className="block text-teal-600" to="/">
      
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64" viewBox="0 0 64 64">
@@ -109,7 +112,7 @@ const Navbar = () => {
 
 
 
-        {/* <button
+        <button
           className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
         >
           <span className="sr-only">Toggle menu</span>
@@ -127,7 +130,7 @@ const Navbar = () => {
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
-        </button> */}
+        </button>
         
       </div>
     </div>
