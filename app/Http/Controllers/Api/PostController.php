@@ -24,13 +24,22 @@ class PostController extends Controller
             'categories_id'=>['required', 'integer'],
              'picture' =>['file','mimes:jpeg,png,gif','max:3072'],
         ]);
-
-        $path = null;
+        $path =null;
+            
         if($request->hasFile('picture')){
-            $path = $request->file('picture')->storePublicly('postImages');
+            $path = $request->file('picture')->storePublicly('Postpictures' ,'public');
         }
 
-        $post = $user->post()->create($validateData);
+        // $post = $user->post()->create($validateData);
+
+        $post = new Post();
+        $post->user_id = $user->id;
+        $post->title = $validateData['title'];
+        $post->content = $validateData['content'];
+        $post->categories_id = $validateData['categories_id'];
+        $post->picture = $path;
+        $post->save();
+
    
         return response()->json([
             // 'user ' => $user,

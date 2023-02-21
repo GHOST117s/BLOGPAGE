@@ -145,7 +145,7 @@ const UserPage = () => {
               <div className="ml-3 hidden flex-shrink-0 sm:block">
                 <img
                   alt={user.name}
-                  src="33466.jpg"
+                  src= {"http://127.0.0.1:8000/storage/" +user.picture }
 
                   className="h-16 w-16 rounded-lg object-cover shadow-sm"
                 />

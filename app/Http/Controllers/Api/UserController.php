@@ -30,15 +30,23 @@ class UserController extends Controller
             $path =null;
             
             if($request->hasFile('picture')){
-                $path = $request->file('picture')->storePublicly('pictures' );
+                $path = $request->file('picture')->storePublicly('pictures' ,'public');
             }
-
+            
+            
 
         $validateData['password'] = bcrypt($request->password);    
 
-        $user = User::create($validateData);      
+        // $user = User::create($validateData);     
+        $user = User::create([
+            'name' => $validateData['name'],
+            'email' => $validateData['email'],
+            'password' => $validateData['password'],
+            'picture' => $path,
+        ]); 
 
         $token = $user->createToken('auth_token')->accessToken; 
+        // dd($path);
 
         return response()->json(
             [
@@ -46,6 +54,7 @@ class UserController extends Controller
                 'user' => $user,
                 'message' =>"User created successfully",
                 'status' => 1
+                
             ]
             );
           
@@ -114,6 +123,43 @@ class UserController extends Controller
         }
     }
     
+    // for update user profile picture and password
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+        
+        // Validate request data
+        $validateData = $request->validate([
+            'old_password' => ['required'],
+            'new_password' => ['min:8', 'confirmed'],
+            'new_picture' => ['file', 'mimes:jpeg,png,gif', 'max:3072']
+        ]);
+        
+        // Check if old password is correct
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'Old password is incorrect', 'status' => 0]);
+        }
+        
+        // Update password and picture if provided
+        if ($request->has('new_password')) {
+            $user->password = bcrypt($request->new_password);
+        }
+        
+        if ($request->hasFile('new_picture')) {
+            $path = $request->file('new_picture')->storePublicly('pictures', 'public');
+            $user->picture = $path;
+        }
+        
+        $user->save();
+        
+        return response()->json([
+            'user' => $user,
+            'message' => "User updated successfully",
+            'status' => 1
+        ]);
+    }
+    
+
     
 
     //

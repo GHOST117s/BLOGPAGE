@@ -135,7 +135,7 @@ const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
                     <button href="">
                       <div className="p-4" key={post.id}>
                         <h3 className="text-lg font-bold text-gray-900 sm:text-xl">{post.title}</h3>
-                        <img src={post.image} alt={post.title} className="w-full h-64 object-cover" />
+                        <img src={post.picture} alt={post.title} className="w-full h-64 object-cover" />
                         <p className="mt-2 text-sm text-gray-500">{post.content}</p>
                         <p className="mt-2 text-sm text-gray-500">{`Posted by: ${post.user.name} (${post.user.email})`}</p>
                         <div className="mt-4 flex justify-end">
