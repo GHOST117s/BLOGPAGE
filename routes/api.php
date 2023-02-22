@@ -35,10 +35,12 @@ Route::get('/getcategories/{id}',[CategoriesController::class,'getCategory']);
 Route::get('/getPosts/{id}',[PostController::class,'getPosts']);
 
 Route::middleware(['auth:api'])->group(function(){
-    Route::post('/logout',[UserController::class,'logout']);
 
-    Route::get('/user',[UserController::class,'getUser']);
-    
+
+    Route::post('/updateuser',[UserController::class,'update']);
+
+    Route::post('/logout',[UserController::class,'logout']);
+    Route::get('/user',[UserController::class,'getUser']);    
     Route::post('/post',[PostController::class,'createPost']);
     Route::get('/edit/{id}',[PostController::class,'edit']);
     Route::post('/update/{id}',[PostController::class,'updatePost']);

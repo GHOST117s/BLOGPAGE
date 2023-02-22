@@ -68,7 +68,7 @@ const Register = () => {
                     </h2>
                     <form encType="multipart/form-data" >
                         <div className="mb-4">
-                            <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">Name</label>
+                            <label htmlFor="name" className="block text-gray-700 font-semibold mb-2" req>Name</label>
                             <input
                                 type="text"
                                 id="name"

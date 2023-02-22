@@ -21,23 +21,28 @@ class UserController extends Controller
        
         $validateData = $request->validate([
             'name' => 'required',
-            'email' => ['required','email'],
+            'email' => ['required','email','unique:users'],
             'password' => ['min:8','confirmed'],   
             'picture' =>['file','mimes:jpeg,png,gif','max:3072'],    
-
-            ]);
+        ], [
+            'email.unique' => 'That email address is already taken.',
+            'password.min' => 'Your password must be at least 8 characters long.',
+            'password.confirmed' => 'Your passwords do not match.',
+        ]);
+        
             //store the picture
             $path =null;
             
             if($request->hasFile('picture')){
-                $path = $request->file('picture')->storePublicly('pictures' ,'public');
+                $path = $request->file('picture')->storePublicly('pictures' );
             }
             
             
 
         $validateData['password'] = bcrypt($request->password);    
 
-        // $user = User::create($validateData);     
+        // $user = User::create($validateData); 
+            
         $user = User::create([
             'name' => $validateData['name'],
             'email' => $validateData['email'],
@@ -146,7 +151,7 @@ class UserController extends Controller
         }
         
         if ($request->hasFile('new_picture')) {
-            $path = $request->file('new_picture')->storePublicly('pictures', 'public');
+            $path = $request->file('new_picture')->storePublicly('pictures');
             $user->picture = $path;
         }
         

@@ -27,7 +27,7 @@ class PostController extends Controller
         $path =null;
             
         if($request->hasFile('picture')){
-            $path = $request->file('picture')->storePublicly('Postpictures' ,'public');
+            $path = $request->file('picture')->storePublicly('pictures');
         }
 
         // $post = $user->post()->create($validateData);
@@ -93,7 +93,7 @@ public function updatePost(Request $request, $id)
     $path = null;
     if ($request->hasFile('picture')) {
         // Upload the new picture
-        $path = $request->file('picture')->storePublicly('postImages');
+        $path = $request->file('picture')->storePublicly('pictures');
 
         // Delete the old picture
         Storage::delete($post->picture);

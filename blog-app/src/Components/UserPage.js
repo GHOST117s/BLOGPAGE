@@ -55,12 +55,15 @@ const UserPage = () => {
     categoryData.append('name', event.target.name.value);
     axios.post('http://127.0.0.1:8000/api/categories', categoryData)
       .then((response) => {
-        console.log('Category created:', response.data);
-        setCategories((categories) => [...categories]);  
-
-        setCategories(categories)
         
-        // setCategories((categories) => [...categories]);
+        console.log('Category created:', response.data);
+       
+
+        
+
+        // setCategories(categories)
+        
+        setCategories((categories) => [...categories]);
         
        
         // window.location.reload(); 
@@ -130,35 +133,39 @@ const UserPage = () => {
       <Navbar />
       {/*user details  */}
       {user && (
-        <div className="container mx-auto max-w-sm  m-9" key={user.id}>
-          <button className="relative block overflow-hidden rounded-lg border border-gray-100 p-8 " >
-            <span
-              className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"  >
-            </span>
-            <div className="justify-between sm:flex">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">
-                  {user.name}
-                </h3>
-                <p className="mt-1 text-xs font-medium text-gray-600"></p>
-              </div>
-              <div className="ml-3 hidden flex-shrink-0 sm:block">
-                <img
-                  alt={user.name}
-                  src= {"http://127.0.0.1:8000/storage/" +user.picture }
-
-                  className="h-16 w-16 rounded-lg object-cover shadow-sm"
-                />
-              </div>
-            </div>
-            <div className="mt-4 sm:pr-8">
-              <p className="text-sm text-gray-500">
-                {user.email}
-              </p>
-            </div>
-          </button>
+  <div className="container mx-auto max-w-sm m-9" key={user.id}>
+    <button className="relative block overflow-hidden rounded-lg border border-gray-100 p-8">
+      <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+      <div className="justify-between sm:flex">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900">{user.name}</h3>
+          <p className="mt-1 text-xs font-medium text-gray-600"></p>
         </div>
-      )}
+        <div className="ml-3 hidden flex-shrink-0 sm:block relative">
+          <img 
+            // alt={user.name}
+            src={"http://127.0.0.1:8000/" + user.picture }
+            className="mr-2 w-14 h-14 rounded-full"
+          />
+          {/* icon for edit */}
+
+          <div className="absolute top-0 right-0 -mt-2 -mr-2">
+          <Link to='/updateuser'>  <button className="bg-white p-2 rounded-full" >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+
+            </button></Link>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 sm:pr-8">
+        <p className="text-sm text-gray-500">{user.email}</p>
+      </div>
+    </button>
+  </div>
+)}
+
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-stretch md:h-screen mx-4 ">
           <div className="md:w-1/5 text-sm font-medium text-gray-900 dark:text-white">

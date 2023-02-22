@@ -8,6 +8,7 @@ import UserPage from './Components/UserPage';
 import CategoriesPage from './Components/CategoriesPage';
 import Posts from './Components/Posts';
 import Edit from './Components/Edit';
+import UserUpdate from './Components/UserUpdate';
 
 
 
@@ -23,6 +24,7 @@ function App() {
     <Route path="/category/:id" element={<CategoriesPage/>}/>
     <Route path="/posts/:id" element={<Posts/>}/>
     <Route path="/editpost/:id" element={<Edit/>}/>
+    <Route path="/updateuser" element={<UserUpdate/>}/>
     
 
 
