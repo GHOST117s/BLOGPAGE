@@ -37,7 +37,13 @@ const Register = () => {
       // set isAuth to true and navigate to the userprofile page
       setAuth(true);
     } catch (err) {
-      alert(err.response.data.message);
+      // alert(err.response.data.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.response.data.message,
+        confirmButtonColor: '#dc3545',
+      });
     }
   }
 

@@ -6,10 +6,28 @@ import Swal from 'sweetalert2';
 
 const Posts = () => {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
+
+  const [post, setPost] = useState('');
   const [body, setbody] = useState('');
   const [user, setUsers] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+
+
+  useEffect(() => {
+    axios
+      .get(`http://127.0.0.1:8000/api/getPosts/${id}`)
+      .then((response) => {
+        console.log(response.data.post);
+        console.log(response.data);
+        setPost(response.data.post);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
+
+
 
 
 // user details
@@ -54,33 +72,48 @@ async function handleCommentSubmit(e) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       const res = await axios.post(`http://127.0.0.1:8000/api/store-comment`, formData);
+      
+      
+
+      console.log(res.data.comment);
+
+
+      const response = await axios.get(`http://127.0.0.1:8000/api/getPosts/${id}`);
+
+    console.log(response.data.post);
+
+    // Update the state of the post with the new comment data
+    setPost(response.data.post);
+
+    // Clear the comment form
+   
+    setbody((body) => [...body, res.data.comment]);
+    setbody('');
 
       // 
+  // setbody(res.data.comment);
+ 
 
-       setbody((body) => [...body, res.data.body]);
+
+ 
+
+      // setbody((body) => [...body, res.data.comment]);
+  
+
+      //  setbody((body) => [...body]);
+      
 
     } catch (err) {
       alert(err.response.data.message);
     }
-
+   
+   
 }
 
 
 
 
 
-  useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8000/api/getPosts/${id}`)
-      .then((response) => {
-        console.log(response.data.post);
-        console.log(response.data);
-        setPost(response.data.post);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id]);
 
   if (!post) {
     return <div>Loading...</div>;
@@ -109,12 +142,7 @@ async function handleCommentSubmit(e) {
           setPost(prevPost => ({ ...prevPost, comments: updatedComments }));
   
           // Show a success message
-          Swal.fire({
-            title: 'Deleted!',
-            text: 'The comment has been deleted.',
-            icon: 'success',
-            confirmButtonColor: '#28a745',
-          });
+        
         } catch (error) {
           console.log(error);
           // Show an error message
@@ -154,7 +182,7 @@ async function handleCommentSubmit(e) {
             <img src={"http://127.0.0.1:8000/" + post.picture}
               alt={post.title} className="my-4 mx-auto max-h-96 object-contain" />
             <div className="text-gray-700">
-              <strong>User:</strong> {post.user.name} ({post.user.email})
+              <strong>User:</strong> {post.user.name} 
             </div>
 
             <div className="text-gray-700">
@@ -172,7 +200,7 @@ async function handleCommentSubmit(e) {
               <section className="bg-white dark:bg-gray-900 py-8 lg:py-16">
                 <div className="max-w-2xl mx-auto px-4">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion</h2>
+                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Comments</h2>
                   </div>
                   <form className="mb-6">
                     <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -226,7 +254,7 @@ async function handleCommentSubmit(e) {
               <p className="text-gray-500 dark:text-gray-400">{comment.body}</p>
               </div>
            
-{ user && user.id === post.user_id && (
+{ user && (user.id === comment.user_id || user.id === post.user_id) &&  (
               <button
                         type="button"
                         className="inline-block px-2 py-1 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mt-2"

@@ -7,7 +7,10 @@ import axios from 'axios'
 
 
 const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
-  
+
+
+    
+ 
 
     function handleview(id) {
    
@@ -33,7 +36,9 @@ const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
               .then((response) => {
                 console.log(response.data);
                 // setCategories(response.data.categories);
-                setCategories(categories)
+                // setCategories(response.data.categories);
+                setCategories(prevState => prevState.filter(category => category.id !== id));
+
                 // window.location.reload();
               })
               .catch((error) => {
@@ -70,8 +75,9 @@ const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
               .put(`http://127.0.0.1:8000/api/delete/${id}`)
               .then((response) => {
                 console.log(response.data);
-                setPost(response.data.post);
-               setPost(posts)
+                // setPost(response.data.post);
+                setPost(prevState => prevState.filter(post => post.id !== id));
+
               })
               .catch((error) => {
                 if (error.response && error.response.status === 401) {
@@ -102,6 +108,7 @@ const Cards = ( {activeLink,user,posts,categories,setCategories,setPost}) => {
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+    
               {activeLink === 'categories' &&
                 categories &&
                 categories.map((category) => (

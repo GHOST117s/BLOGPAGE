@@ -17,10 +17,11 @@ class CategoriesController extends Controller
         $user = Auth::user();
 
         $validateData = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:categories,name',
 
 
         ]);
+        
 
         $categories = $user->categories()->create($validateData);
 
