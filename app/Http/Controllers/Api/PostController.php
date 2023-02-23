@@ -89,6 +89,15 @@ public function updatePost(Request $request, $id)
             'status' => 403,
         ]);
     }
+    if($request->has('title')){
+        $post->title = $request->title;
+    }
+    if($request->has('content')){
+        $post->content = $request->content;
+    }
+
+
+
     // Check if a new picture was provided
     $path = null;
     if ($request->hasFile('picture')) {

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -10,13 +9,11 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Categories;
-
-
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class UserController extends Controller
 {
-
     public function register(Request $request){
        
         $validateData = $request->validate([
@@ -38,9 +35,7 @@ class UserController extends Controller
             }
             
             
-
         $validateData['password'] = bcrypt($request->password);    
-
         // $user = User::create($validateData); 
             
         $user = User::create([
@@ -48,11 +43,26 @@ class UserController extends Controller
             'email' => $validateData['email'],
             'password' => $validateData['password'],
             'picture' => $path,
-        ]); 
-
+        ]);       
         $token = $user->createToken('auth_token')->accessToken; 
-        // dd($path);
 
+
+        // send email with details
+        $mailData = [
+            'name' => $user->name,
+            'email' => $user->email,
+            
+        ];
+
+
+        Mail::to($user->email)->send(new WelcomeMail($mailData));
+        // $user->notify(new WelcomeEmail());
+       
+       
+        
+      
+
+        // dd($path);
         return response()->json(
             [
                 'token' => $token,
@@ -65,7 +75,6 @@ class UserController extends Controller
           
            
     }
-
     public function login(Request $request)
     {
         $validateData = $request->validate([
@@ -84,7 +93,6 @@ class UserController extends Controller
         }
         
         $token = $user->createToken('auth_token')->accessToken;
-
         return response()->json([
             'token' => $token,
             'user' => $user,        
@@ -104,11 +112,9 @@ class UserController extends Controller
             'status' => 1
         ]);
     }
-
     public function getUser() {
         $user = auth()->user();
         $posts = Post::with('comments.user','user')->get();
-
         $categories = Categories::with('post','user')->get();
     
         if (is_null($user)) {
@@ -163,9 +169,34 @@ class UserController extends Controller
             'status' => 1
         ]);
     }
+
+    public function updatePicture(Request $request)
+    {
+        $user = auth()->user();
+    
+        // Validate request data
+        $validateData = $request->validate([
+            'new_picture' => ['file', 'mimes:jpeg,png,gif', 'max:3072']
+        ]);
+    
+        // Update picture if provided
+        if ($request->hasFile('new_picture')) {
+            $path = $request->file('new_picture')->storePublicly('pictures');
+            $user->picture = $path;
+            $user->save();
+        }
+    
+        return response()->json([
+            'user' => $user,
+            'message' => "User picture updated successfully",
+            'status' => 1
+        ]);
+    }
     
 
-    
 
+
+    
+    
     //
 }

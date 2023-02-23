@@ -18,9 +18,19 @@ async function handleEdit (e){
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('picture', picture);
+    if(title){
+
+        formData.append('title', title);
+    }
+    if(content){
+
+        formData.append('content', content);
+    }
+    if(picture){
+
+        formData.append('picture', picture);
+    }
+    // formData.append('picture', picture);
 
     try {
 

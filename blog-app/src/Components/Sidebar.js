@@ -2,7 +2,7 @@ import React from 'react'
 
 const Sidebar = ({ categories, setSelectedCategory }) => {
   return (
-    <div className="w-78 text-sm font-medium text-gray-900 dark:text-white">
+    <div className="w-40 text-sm font-medium text-gray-900 dark:text-white">
     <button
       aria-current="true"
       className="w-full p-2 font-medium text-white bg-blue-700 border-b border-gray-200 rounded-t-lg cursor-pointer focus:outline-none dark:bg-gray-800 dark:border-gray-600"

@@ -5,6 +5,9 @@ import Navbar from './Navbar';
 import Swal from 'sweetalert2';
 
 const Posts = () => {
+
+
+  const token = localStorage.getItem('token');
   const { id } = useParams();
 
   const [post, setPost] = useState('');
@@ -33,18 +36,19 @@ const Posts = () => {
 // user details
 
 useEffect(() => {
-  const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-   axios.get('http://127.0.0.1:8000/api/user')
-    .then(response => {
-      console.log(response.data);
-      setUsers(response.data.user);
-      
-      
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  const token = localStorage.getItem('token');
+  if (token) {
+    const formattedToken = token.replace(/^"(.*)"$/, '$1');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${formattedToken}`;
+    axios.get('http://127.0.0.1:8000/api/user')
+      .then(response => {
+        console.log(response.data);
+        setUsers(response.data.user);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 }, []);
 
 
@@ -54,60 +58,42 @@ useEffect(() => {
 
 
 
-
 async function handleCommentSubmit(e) {
-  
-    e.preventDefault();
-    console.log(body);
-    console.log('clicked');
+  e.preventDefault();
+  console.log(body);
+  console.log('clicked');
 
-    const formData = new FormData();
-    formData.append('body',body)
-    formData.append('post_id',id)
+  // Check if user is logged in
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('You need to be logged in to comment.');
+    return;
+  }
 
-    try {
-      
+  const formData = new FormData();
+  formData.append('body', body);
+  formData.append('post_id', id);
 
-      const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');    
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  try {
+    const formattedToken = token.replace(/^"(.*)"$/, '$1');    
+    axios.defaults.headers.common['Authorization'] = `Bearer ${formattedToken}`;
 
-      const res = await axios.post(`http://127.0.0.1:8000/api/store-comment`, formData);
-      
-      
+    const res = await axios.post(`http://127.0.0.1:8000/api/store-comment`, formData);
+    console.log(res.data.comment);
 
-      console.log(res.data.comment);
-
-
-      const response = await axios.get(`http://127.0.0.1:8000/api/getPosts/${id}`);
-
+    const response = await axios.get(`http://127.0.0.1:8000/api/getPosts/${id}`);
     console.log(response.data.post);
 
     // Update the state of the post with the new comment data
     setPost(response.data.post);
 
     // Clear the comment form
-   
     setbody((body) => [...body, res.data.comment]);
     setbody('');
 
-      // 
-  // setbody(res.data.comment);
- 
-
-
- 
-
-      // setbody((body) => [...body, res.data.comment]);
-  
-
-      //  setbody((body) => [...body]);
-      
-
-    } catch (err) {
-      alert(err.response.data.message);
-    }
-   
-   
+  } catch (err) {
+    alert(err.response.data.message);
+  }
 }
 
 
@@ -175,23 +161,64 @@ async function handleCommentSubmit(e) {
       <Navbar />
       <div className="max-w-4xl mx-auto mt-4 ">
         <div className="bg-white rounded-lg overflow-hidden shadow-md ">
-          <div className="bg-gray-200 px-4 py-2 ">{post.title}</div>
+          <div className="bg-gray-200 px-4 py-2 "></div>
           <div className="px-4 py-2">
-            <p className="text-gray-700">{post.content}</p>
+            <p className="text-gray-700"></p>
+            <article class="flex bg-white transition hover:shadow-xl">
+  <div class="rotate-180 p-2 [writing-mode:_vertical-lr]">
+    <time
+      datetime="2022-10-10"
+      class="flex items-center justify-between gap-4 text-xs font-bold uppercase text-gray-900"
+    >
+      <span></span>
+      <span class="w-px flex-1 bg-gray-900/10"></span>
+      <span></span>
+    </time>
+  </div>
 
-            <img src={"http://127.0.0.1:8000/" + post.picture}
-              alt={post.title} className="my-4 mx-auto max-h-96 object-contain" />
-            <div className="text-gray-700">
-              <strong>User:</strong> {post.user.name} 
-            </div>
+  <div class="hidden sm:block sm:basis-56">
+    <img
+      alt="Guitar"
+      src={"http://127.0.0.1:8000/" + post.picture}
+      class="aspect-square h-full w-full object-cover"
+    />
+  </div>
 
-            <div className="text-gray-700">
-              <strong>Categories:</strong> {post.categories.name}
-            </div>
-            {/* edit button */}
-            <Link to={`/editpost/${post.id}`}>
-              <button type="button" className="m-3 inline-block justify-center px-6 py-2.5 bg-cyan-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out"  >Edit
-              </button> </Link>
+  <div class="flex flex-1 flex-col justify-between">
+    <div class="border-l border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
+      <a href="#">
+        
+        <h3 class="font-bold uppercase text-gray-900">Title : 
+        {post.title}
+        </h3>
+      </a>
+
+      <p class="mt-2 text-sm leading-relaxed text-gray-700 line-clamp-3">Content : 
+      {post.content}
+      </p>
+    </div>
+ {/* edit button */}
+    <div class="sm:flex sm:items-end sm:justify-end">
+    {user.id === post.user_id && token && (
+  <Link to={`/editpost/${post.id}`}>
+    <button type="button" className=" mr-2 block bg-cyan-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
+      Edit
+    </button>
+  </Link>
+)}
+
+    </div>
+    <p class="mt-2 ml-6 text-sm leading-relaxed text-gray-700 line-clamp-3">Author --&gt; 
+      {post.user.name}
+      </p>
+    
+  </div>
+</article>
+       
+           
+
+       
+
 
 
 
@@ -255,13 +282,20 @@ async function handleCommentSubmit(e) {
               </div>
            
 { user && (user.id === comment.user_id || user.id === post.user_id) &&  (
-              <button
+              <><button
                         type="button"
                         className="inline-block px-2 py-1 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mt-2"
                         onClick={() => handleDeleteClick(comment.id)}
                       >
                         Delete
                       </button>
+                      
+                      <button   className=" ml-1 inline-block px-2 py-1 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out mt-2">Edit</button></>
+
+
+
+
+
             )}          
             </article>
             </div>

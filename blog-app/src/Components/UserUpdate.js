@@ -25,9 +25,14 @@ const UserUpdate = () => {
 
         const formData = new FormData();
         formData.append('old_password', old_password);
-        formData.append('new_password', new_password);
-        formData.append('new_password_confirmation', new_password_confirmation);
-        formData.append('new_picture', new_picture);
+        
+        if (new_picture) {
+          formData.append('new_picture', new_picture);
+        }
+        if (new_password) {
+          formData.append('new_password', new_password);
+          formData.append('new_password_confirmation', new_password_confirmation);
+        }
 
         try {
             const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');

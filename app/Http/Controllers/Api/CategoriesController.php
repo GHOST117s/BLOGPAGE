@@ -8,28 +8,43 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Categories;
+use Illuminate\Support\Facades\Validator;
+
 
 
 
 class CategoriesController extends Controller
 {
-    public function createCategory(Request $request){
+    public function createCategory(Request $request)
+    {
         $user = Auth::user();
-
-        $validateData = $request->validate([
+    
+        $validatedData = $request->validate([
             'name' => 'required|max:255|unique:categories,name',
-
-
         ]);
+    
+        $validatedData['name'] = strtolower($validatedData['name']); // convert name to lowercase
+    
+        // If the user-provided name is not unique due to case-insensitivity,
+        // we need to overwrite the validation error message to avoid duplicate errors
         
-
-        $categories = $user->categories()->create($validateData);
-
-
-        return response()->json([
-            'status'=>200
+        $validator = Validator::make($validatedData, [
+            'name' => 'unique:categories,name'
         ]);
+        $validator->sometimes('name', 'unique:categories,name', function ($input) {
+            return strtolower($input->name) !== $input->name;
+        });
+    
+        // If validation fails, return the error messages as JSON response
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
+        $category = $user->categories()->create($validatedData);
+    
+        return response()->json(['status' => 200]);
     }
+    
 
     public function getAllCategoriesWithPosts()
     {

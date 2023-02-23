@@ -38,6 +38,9 @@ Route::middleware(['auth:api'])->group(function(){
 
 
     Route::post('/updateuser',[UserController::class,'update']);
+    Route::post('/updatepicture',[UserController::class,'updatePicture']);
+
+
 
     Route::post('/logout',[UserController::class,'logout']);
     Route::get('/user',[UserController::class,'getUser']);    
